@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/bace.css"/>
+		<style type="text/css">
+			.autocomplete{ 
+				display: none;
+				border: 1px solid #BCBCBC; 
+				background-color: white; 
+				text-align: left;
+				padding:0;
+				margin:0 ;
+				max-height: 270px;
+			    overflow: auto;
+			    z-index:99;
+			    border-radius: 0 0 4px 4px;
+			    width:245px;
+			}
+			.autocomplete li{ 
+				list-style-type: none; 
+				padding: 0 5px;
+				border-bottom: 1px dashed #bcbcbc;
+				cursor: pointer;
+			}
+			.autocomplete .fl{
+				float:left;
+				margin-right:5px;
+				word-break: break-all;
+			}
+			.autocomplete .fr{
+				float:right;
+			}
+			.clickable { 
+				cursor: default; 
+				line-height: 30px;
+			} 
+			.highlight { 
+				background-color: #1d70c5; 
+				color: #FFFFFF;
+			}
+		</style>
+	</head>
+	<body>
+		<input type="text" required class="search-text" id="userMsg" data-hideName="" name="search-text" maxlength="20" autocomplete="off"  ${(baseInfo.baseId==' '||baseInfo.baseId==null)?'':'disabled'}/>
+		<ul id="dropMenuWrp" class="autocomplete"></ul>
+	</body>
+	<script src="js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/commen.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/context.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var _userList=[
+			{"userName":"张三","phone":"18122313434","uesrCode":"001"},
+			{"userName":"李四","phone":"18204345674","uesrCode":"002"},
+			{"userName":"李五","phone":"18204444535","uesrCode":"003"},
+			{"userName":"李思思","phone":"18456754323","uesrCode":"004"},
+		];
+		$(".search-text").autoComplete({//业务员姓名联想
+			data:_userList,
+			autocomplete:"#dropMenuWrp",
+			dataName:"userName",
+			callback:function(userCode,phone){   //调用callback函数，匹配两边联动
+				$("input[name='userName']").val("");
+				$("input[name='userCode']").val("");
+				var newVal=$("#userMsg").val();
+				if(userCode!=""&&newVal!=""){
+					var _hideCode=$("#userMsg").data("code");
+					$("#userCode").val(_hideCode);
+				}else{
+					$("#userMsg").data("hidename","");
+					$("#userMsg").data("code","");
+					$("#userName").val("");
+					$("#userCode").val("");
+				}
+			}
+		});
+	</script>
+</html>
